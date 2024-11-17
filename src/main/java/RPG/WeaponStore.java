@@ -24,6 +24,7 @@ public class WeaponStore {
         }
     }
 
+    // ACHETTE UNE ARME POUR LE JOUEUR ET L'EQUIPE
     public void buyWeapon(int weaponIndex, Player player) {
         if (weaponIndex < 0 || weaponIndex >= weapons.size()) {
             System.out.println("Invalid weapon choice.");
@@ -33,7 +34,7 @@ public class WeaponStore {
         Weapon chosenWeapon = weapons.get(weaponIndex);
         if (player.getMoney() >= chosenWeapon.getPrice()) {
             player.subtractMoney(chosenWeapon.getPrice());
-            player.equipWeapon(chosenWeapon); // Équipe l'arme directement
+            player.equipWeapon(chosenWeapon); // EQUIPE L'ARME DIRECTEMENT
             System.out.println("Weapon purchased and equipped : " + chosenWeapon.getName());
         } else {
             System.out.println("Not enough money. Get out of here !");

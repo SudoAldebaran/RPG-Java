@@ -11,7 +11,7 @@ public class Destructible {
     public void hit(double d) {
         this.health -= d;
         if (this.health < 0) {
-            this.health = 0; // On s'assure que la santé ne devienne pas négative
+            this.health = 0;
         }
     }
 

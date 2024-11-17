@@ -1,8 +1,8 @@
 package RPG;
 
 public class Map {
-    private static final int SIZE = 10; // Taille de la carte
-    private char[][] map; // La carte sera une matrice de caractères ('.' pour vide, 'M' pour monstre, 'O' pour obstacle, 'S' pour sortie)
+    private static final int SIZE = 10; // TAILLE DE LA CARTE
+    private char[][] map; // LA CARTE SERA UNE MATRICE DE CARACTERES ('.' POUR VIDE, 'M' POUR MONSTRE, 'O' POUR OBSTACLE, 'S' POUR SORTIE)
 
     public Map() {
         map = new char[SIZE][SIZE];
@@ -10,23 +10,23 @@ public class Map {
         configureStandardMap();
     }
 
-    // Initialise une carte vide
+    // INITIALISE UNE CARTE VIDE
     private void initializeEmptyMap() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
-                map[i][j] = '.'; // Par défaut, vide
+                map[i][j] = '.'; // PAR DEFAUT, VIDE
             }
         }
     }
 
-    // Configure la carte avec une disposition standard
+    // CONFIGURE LA CARTE AVEC UNE DISPOSITION STANDARD
     private void configureStandardMap() {
-        // Obstacles destructibles formant une partie du labyrinthe
+        // OBSTACLES DESTRUCTIBLES FORMANT UNE PARTIE DU LABYRINTHE
         int[][] destructibleObstaclePositions = {
                 {1, 2}, {1, 5}, {5, 3}, {7, 5}, {7, 1}, {8, 3}, {9, 4}
         };
 
-        // Obstacles non destructibles formant une partie du labyrinthe
+        // OBSTACLES NON DESTRUCTIBLES FORMANT UNE PARTIE DU LABYRINTHE
         int[][] nonDestructibleObstaclePositions = {
                 {0, 7}, {1, 1}, {1, 3}, {1, 6}, {1, 7}, {2, 1}, {3, 1},
                 {3, 5}, {3, 7}, {4, 7}, {5, 7}, {5, 5}, {6, 3}, {7, 3},
@@ -37,7 +37,7 @@ public class Map {
                 {9, 2}, {7, 2}, {7, 0}
         };
 
-        // Monstres sur des chemins clés
+        // MONSTRES SUR DES CHEMINS CLES
         int[][] monsterPositions = {
                 {2, 4}, {4, 4}, {6, 5}, {6, 1}, {8, 7}
         };
@@ -46,54 +46,54 @@ public class Map {
                 {8, 1}
         };
 
-        // Placer les obstacles destructibles ('X')
+        // PLACER LES OBSTACLES DESTRUCTIBLES ('X')
         for (int[] pos : destructibleObstaclePositions) {
-            map[pos[0]][pos[1]] = 'X'; // Place un obstacle destructible
+            map[pos[0]][pos[1]] = 'X'; // PLACE UN OBSTACLE DESTRUCTIBLE
         }
 
-        // Placer les obstacles non destructibles ('O')
+        // PLACER LES OBSTACLES NON DESTRUCTIBLES ('O')
         for (int[] pos : nonDestructibleObstaclePositions) {
-            map[pos[0]][pos[1]] = 'O'; // Place un obstacle non destructible
+            map[pos[0]][pos[1]] = 'O'; // PLACE UN OBSTACLE NON DESTRUCTIBLE
         }
 
-        // Placer les monstres ('M')
+        // PLACER LES MONSTRES ('M')
         for (int[] pos : monsterPositions) {
-            map[pos[0]][pos[1]] = 'M'; // Place un monstre
+            map[pos[0]][pos[1]] = 'M'; // PLACE UN MONSTRE
         }
 
         for (int[] pos : healPositions) {
-            map[pos[0]][pos[1]] = 'H'; // Place un soin
+            map[pos[0]][pos[1]] = 'H'; // PLACE UN SOIN
         }
 
-        // Ajouter un Ogre ('G') à une position clé
-        map[5][8] = 'G'; // Exemple : placer l'Ogre à la position (3, 6)
+        // AJOUTER UN OGRE ('G') A UNE POSITION CLE
+        map[5][8] = 'G';
 
-        // Ajouter la sortie en bas à droite ('S')
-        map[SIZE - 1][SIZE - 1] = 'S'; // La sortie est en bas à droite (9, 9)
+        // AJOUTER LA SORTIE EN BAS A DROITE ('S')
+        map[SIZE - 1][SIZE - 1] = 'S'; // LA SORTIE EST EN BAS A DROITE (9, 9)
     }
 
-    // Retourne un obstacle destructible à une position donnée
+    // RETOURNE UN OBSTACLE DESTRUCTIBLE A UNE POSITION DONNEE
     public Obstacle getDestructibleObstacleAt(int x, int y) {
         if (map[x][y] == 'X') {
-            return new DestructibleObstacle(); // Crée un nouvel obstacle destructible avec 100 PV
+            return new DestructibleObstacle(); // CREE UN NOUVEL OBSTACLE DESTRUCTIBLE AVEC 100 PV
         }
         return null;
     }
 
 
     public boolean isValidMove(int x, int y) {
-        // Vérifie les limites de la carte
+        // VERIFIE LES LIMITES DE LA CARTE
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {
             return false;
         }
 
-        // Vérifie si la case est un obstacle non destructible
+        // VERIFIE SI LA CASE EST UN OBSTACLE NON DESTRUCTIBLE
         char tile = map[x][y];
-        if (tile == 'O') { // 'O' représente un obstacle non destructible
+        if (tile == 'O') { // 'O' REPRESENTE UN OBSTACLE NON DESTRUCTIBLE
             return false;
         }
 
-        // Déplacement autorisé si ce n'est pas un obstacle non destructible
+        // DEPLACEMENT AUTORISE SI CE N'EST PAS UN OBSTACLE NON DESTRUCTIBLE
         return true;
     }
 
@@ -103,21 +103,21 @@ public class Map {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 if (i == player.getxPos() && j == player.getyPos()) {
-                    System.out.print(player.getEmoji()); // Affiche l'emoji du joueur
+                    System.out.print(player.getEmoji()); // AFFICHE L'EMOJI DU JOUEUR
                 } else if (map[i][j] == 'X') {
-                    System.out.print("\uD83E\uDEA8"); // Emoji arbre pour les obstacles destructibles
+                    System.out.print("\uD83E\uDEA8"); // EMOJI ROCHER POUR LES OBSTACLES DESTRUCTIBLES
                 } else if (map[i][j] == 'G') {
-                    System.out.print("\uD83E\uDDCC"); // Emoji arbre pour les obstacles destructibles
+                    System.out.print("\uD83E\uDDCC"); // EMOJI OGRE
                 } else if (map[i][j] == 'O') {
-                    System.out.print("\uD83C\uDF33"); // Emoji panneau interdit pour les obstacles non destructibles
+                    System.out.print("\uD83C\uDF33"); // EMOJI ARBRE
                 } else if (map[i][j] == 'M') {
-                    System.out.print("\uD83E\uDDDF"); // Emoji monstre
+                    System.out.print("\uD83E\uDDDF"); // EMOJI MONSTRE
                 } else if (map[i][j] == 'S') {
-                    System.out.print("\uD83D\uDEAA"); // Emoji porte pour la sortie
+                    System.out.print("\uD83D\uDEAA"); // EMOJI PORTE POUR LA SORTIE
                 } else if (map[i][j] == 'H') {
-                    System.out.print("\uD83D\uDC8A"); // Emoji porte pour soin
+                    System.out.print("\uD83D\uDC8A"); // EMOJI PILULE POUR SOIN
                 } else {
-                    System.out.print(". "); // Case vide
+                    System.out.print(". "); // CASE VIDE
                 }
             }
             System.out.println();

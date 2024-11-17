@@ -1,13 +1,13 @@
 package RPG;
 
-// Classe générale Obstacle
+// CLASSE GENERALE OBSTACLE
 public abstract class Obstacle extends Destructible {
 
     public Obstacle(double health) {
         super(health);
     }
 
-    // Définir si un obstacle est destructible ou non
+    // DEFINIR SI UN OBSTACLE EST DESTRUCTIBLE OU NON
     public abstract boolean isDestructible();
 
     public double getHealth() {
@@ -15,7 +15,7 @@ public abstract class Obstacle extends Destructible {
     }
 }
 
-// Classe pour les obstacles destructibles
+// CLASSE POUR LES OBSTACLES DESTRUCTIBLES
 class DestructibleObstacle extends Obstacle {
     private static final double DEFAULT_HEALTH = 100;
 
@@ -25,25 +25,25 @@ class DestructibleObstacle extends Obstacle {
 
     @Override
     public boolean isDestructible() {
-        return true; // Peut être détruit
+        return true; // PEUT ETRE DETRUIT
     }
 
     @Override
     public void hit(double damage) {
         super.hit(damage);
-        System.out.println("The obstacle took " + damage + " damage!");
+        System.out.println("L'OBSTACLE A PRIS " + damage + " D'ECHECS !");
     }
 }
 
-// Classe pour les obstacles non destructibles
+// CLASSE POUR LES OBSTACLES NON DESTRUCTIBLES
 class NonDestructibleObstacle extends Obstacle {
 
     public NonDestructibleObstacle() {
-        super(Double.POSITIVE_INFINITY); // Vie infinie
+        super(Double.POSITIVE_INFINITY); // VIE INFINIE
     }
 
     @Override
     public boolean isDestructible() {
-        return false; // Ne peut pas être détruit
+        return false; // NE PEUT PAS ETRE DETRUIT
     }
 }

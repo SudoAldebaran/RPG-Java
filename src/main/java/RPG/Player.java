@@ -2,13 +2,13 @@ package RPG;
 
 public class Player {
     private String name;
-    private PlayerClass playerClass; // Classe du joueur
+    private PlayerClass playerClass; // CLASSE DU JOUEUR
     private int level;
     private int xp;
     private double money;
     private double mana;
-    private int xPos, yPos;  // Position du joueur sur la carte
-    private Weapon equippedWeapon;  // Arme équipée
+    private int xPos, yPos;  // POSITION DU JOUEUR SUR LA CARTE
+    private Weapon equippedWeapon;  // ARME EQUIPEE
     private int health;
     private int strength;
 
@@ -23,7 +23,7 @@ public class Player {
         this.yPos = 0;
         this.equippedWeapon = null;
         this.health = this.playerClass.getHealth();
-        this.strength = playerClass.getStrength(); // Initialisation de la force
+        this.strength = playerClass.getStrength();
     }
 
     public void displayInfo() {
@@ -44,21 +44,21 @@ public class Player {
 
     public void addXP(int xp) {
         this.xp += xp;
-        if (this.xp >= 100) {  // Exemple : chaque 100 XP fait passer un niveau
+        if (this.xp >= 100) {  // EXEMPLE : CHAQUE 100 XP FAIT PASSER UN NIVEAU
             this.level++;
             this.xp = 0;
             System.out.println("Level up ! New level: " + this.level);
 
-            // Augmentation de la force à chaque montée de niveau
-            // Bonus de force par niveau
+            // AUGMENTATION DE LA PUISSANCE A CHAQUE MONTEE DE NIVEAU
+            // BONUS DE FORCE PAR NIVEAU
             int levelStrengthBonus = 5;
             increaseStrength(levelStrengthBonus);
         }
     }
 
-    // Méthode pour augmenter la force
+    // METHODE POUR AUGMENTER LA FORCE
     public void increaseStrength(int amount) {
-        this.strength += amount;  // Met à jour la force du joueur
+        this.strength += amount;  // MET A JOUR LA PUISSANCE DU JOUEUR
         System.out.println("Strength increased by " + amount + ". New strength: " + this.strength);
     }
 
@@ -99,7 +99,7 @@ public class Player {
     public void move(String direction, Map map) {
         int newX = xPos, newY = yPos;
 
-        // Calcul de la nouvelle position
+        // CALCUL DE LA NOUVELLE POSITION
         switch (direction.toLowerCase()) {
             case "up":
                 newX -= 1;
@@ -118,7 +118,7 @@ public class Player {
                 return;
         }
 
-        // Vérification de la validité du déplacement
+        // VERIFICATION DE LA VALIDITE DU DEPLACEMENT
         if (map.isValidMove(newX, newY)) {
             this.xPos = newX;
             this.yPos = newY;
@@ -127,27 +127,27 @@ public class Player {
         }
     }
 
-    // Retourne les dégâts infligés par le joueur
+    // RETOURNE LES DEGATS INFLIGES PAR LE JOUEUR
     public double getDamage() {
         if (equippedWeapon != null) {
-            return equippedWeapon.getDamage() + playerClass.getStrength(); // Dégâts de l'arme équipée
+            return equippedWeapon.getDamage() + playerClass.getStrength(); // DEGATS DE L'ARME EQUIPEE
         } else {
-            return playerClass.getStrength(); // Par défaut, force de la classe
+            return playerClass.getStrength(); // PAR DEFAUT, FORCE DE LA CLASSE
         }
     }
 
     public int getStrength() {
-        int weaponDamage = (this.equippedWeapon != null) ? (int) this.equippedWeapon.getDamage() : 0; // Bonus de l'arme
-        return this.strength + weaponDamage;  // Force actuelle du joueur, incluant l'arme équipée
+        int weaponDamage = (this.equippedWeapon != null) ? (int) this.equippedWeapon.getDamage() : 0; // BONUS DE L'ARME
+        return this.strength + weaponDamage;  // FORCE ACTUELLE DU JOUEUR, INCLUANT L'ARME EQUIPEE
     }
 
-    // Permet d'équiper une arme
+    // PERMET D'EQUIPER UNE ARME
     public void equipWeapon(Weapon weapon) {
         this.equippedWeapon = weapon;
         System.out.println("You equipped the " + weapon.getName() + "!");
     }
 
-    // Affiche l'arme équipée
+    // AFFICHE L'ARME EQUIPEE
     public void displayEquippedWeapon() {
         if (equippedWeapon != null) {
             System.out.println("Equipped weapon: " + equippedWeapon.getName());
@@ -156,17 +156,17 @@ public class Player {
         }
     }
 
-    // Retourne l'emoji correspondant à la classe du joueur
+    // RETOURNE L'EMOJI CORRESPONDANT A LA CLASSE DU JOUEUR
     public String getEmoji() {
         switch (playerClass) {
             case ELF:
-                return "\uD83E\uDDDD\u200D♂\uFE0F"; // Emoji Elfique (feuille)
+                return "\uD83E\uDDDD\u200D♂\uFE0F"; // EMOJI ELFIQUE
             case WIZARD:
-                return "\uD83E\uDDD9\u200D♂\uFE0F"; // Emoji Sorcier
+                return "\uD83E\uDDD9\u200D♂\uFE0F"; // EMOJI SORCIER
             case VAMPIRE:
-                return "\uD83E\uDDDB"; // Emoji Vampire
+                return "\uD83E\uDDDB"; // EMOJI VAMPIRE
             default:
-                return "P"; // Par défaut
+                return "P"; // PAR DEFAUT
         }
     }
 
@@ -183,13 +183,13 @@ public class Player {
         return mana;
     }
 
-    // Méthode pour l'attaque spéciale, consomme du mana
+    // METHODE POUR L'ATTAQUE SPECIALE, CONSOMME DU MANA
     public void specialAttack(Destructible target) {
-        if (this.mana >= 20) {  // Vérification si le joueur a assez de mana (par exemple 20 mana par attaque spéciale)
-            this.mana -= 20;  // Consommation de mana
-            double specialDamage = getDamage() * 2;  // Dégâts doublés
+        if (this.mana >= 20) {  // VERIFICATION SI LE JOUEUR A ASSEZ DE MANA (PAR EXEMPLE 20 MANA PAR ATTAQUE SPECIALE)
+            this.mana -= 20;  // CONSUMMATION DE MANA
+            double specialDamage = getDamage() * 2;  // DEGATS DOUBLES
             System.out.println("Special attack! Dealing " + specialDamage + " damage.");
-            target.hit(specialDamage);  // Inflige les dégâts à la cible
+            target.hit(specialDamage);  // INFLIGE LES DEGATS A LA CIBLE
         } else {
             System.out.println("Not enough mana for a special attack.");
         }
