@@ -1,4 +1,3 @@
-// WeaponStore.java
 package RPG;
 
 import java.util.ArrayList;
