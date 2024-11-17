@@ -8,6 +8,7 @@ public class Player {
     private double money;
     private double mana;
     private int xPos, yPos;  // Position du joueur sur la carte
+    private Weapon equippedWeapon;  // Arme équipée
 
     public Player(String name, PlayerClass playerClass) {
         this.name = name;
@@ -18,6 +19,7 @@ public class Player {
         this.mana = playerClass.getStartingMana(); // Mana spécifique à la classe
         this.xPos = 0;  // Position initiale (en haut à gauche)
         this.yPos = 0;
+        this.equippedWeapon = null; // Par défaut, pas d'arme équipée
     }
 
     public void displayInfo() {
@@ -27,8 +29,14 @@ public class Player {
         System.out.println("XP: " + this.xp);
         System.out.println("Money: " + this.money);
         System.out.println("Mana: " + this.mana);
-        System.out.println("Strength: " + this.playerClass.getStrength());
+        if (this.equippedWeapon != null) {
+            System.out.println("Strength: " + this.getStrength());
+            displayEquippedWeapon();
+        } else {
+            System.out.println("Strength: " + this.playerClass.getStrength());
+        }
     }
+
 
     public void addXP(int xp) {
         this.xp += xp;
@@ -99,7 +107,36 @@ public class Player {
         }
     }
 
+    // Retourne les dégâts infligés par le joueur
+    public double getDamage() {
+        if (equippedWeapon != null) {
+            return equippedWeapon.getDamage() + playerClass.getStrength(); // Dégâts de l'arme équipée
+        } else {
+            return playerClass.getStrength(); // Par défaut, force de la classe
+        }
+    }
 
+    public int getStrength() {
+        int baseStrength = this.playerClass.getStrength(); // Force de base selon la classe
+        int weaponDamage = (this.equippedWeapon != null) ? (int) this.equippedWeapon.getDamage() : 0; // Bonus de l'arme
+        return baseStrength + weaponDamage; // Force totale
+    }
+
+    // Permet d'équiper une arme
+    public void equipWeapon(Weapon weapon) {
+        this.equippedWeapon = weapon;
+        // this.strength = weapon.getDamage();
+        System.out.println("You equipped the " + weapon.getName() + "!");
+    }
+
+    // Affiche l'arme équipée
+    public void displayEquippedWeapon() {
+        if (equippedWeapon != null) {
+            System.out.println("Equipped weapon: " + equippedWeapon.getName());
+        } else {
+            System.out.println("No weapon equipped.");
+        }
+    }
 
     // Retourne l'emoji correspondant à la classe du joueur
     public String getEmoji() {

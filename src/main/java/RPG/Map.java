@@ -60,6 +60,15 @@ public class Map {
         map[SIZE - 1][SIZE - 1] = 'S'; // La sortie est en bas à droite (9, 9)
     }
 
+    // Retourne un obstacle destructible à une position donnée
+    public Obstacle getDestructibleObstacleAt(int x, int y) {
+        if (map[x][y] == 'X') {
+            return new DestructibleObstacle(); // Crée un nouvel obstacle destructible avec 100 PV
+        }
+        return null;
+    }
+
+
     public boolean isValidMove(int x, int y) {
         // Vérifie les limites de la carte
         if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) {

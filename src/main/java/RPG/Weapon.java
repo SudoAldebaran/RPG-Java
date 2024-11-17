@@ -43,6 +43,10 @@ public abstract class Weapon {
         return this.name;
     }
 
+    public double getDamage() {
+        return this.damage;
+    }
+
 
     @Override
     public String toString() {

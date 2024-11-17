@@ -96,6 +96,34 @@ public class Main {
                     System.out.println("You cannot move there! It's blocked by an obstacle.");
                 }
 
+                if (map.isValidMove(newX, newY)) {
+                    char tile = map.getTile(newX, newY);
+
+                    if (tile == 'X') { // Obstacle destructible détecté
+                        System.out.println("You encountered a destructible obstacle! 🪓");
+                        System.out.println("Do you want to attack it? (Y/N)");
+                        String choice = scanner.nextLine().toUpperCase();
+
+                        if (choice.equals("Y")) {
+                            // Interaction de combat avec l'obstacle
+                            Obstacle obstacle = map.getDestructibleObstacleAt(newX, newY); // Nouvelle méthode à implémenter
+                            while (obstacle.getHealth() > 0) {
+                                System.out.println("Attacking the obstacle! Remaining health: " + obstacle.getHealth());
+                                obstacle.hit(player.getDamage());
+                            }
+                            System.out.println("You destroyed the obstacle! 🪓🔥");
+                            map.setTile(newX, newY, '.'); // Libérer la case
+                        } else {
+                            System.out.println("You chose not to attack the obstacle.");
+                        }
+                    } else {
+                        player.setPosition(newX, newY); // Déplacement normal
+                    }
+                } else {
+                    System.out.println("You cannot move there! It's blocked by an obstacle.");
+                }
+
+
                 // Interaction avec la carte
                 char tile = map.getTile(player.getxPos(), player.getyPos());
 

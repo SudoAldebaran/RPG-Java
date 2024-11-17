@@ -26,10 +26,16 @@ public class WeaponStore {
     }
 
     public void buyWeapon(int weaponIndex, Player player) {
+        if (weaponIndex < 0 || weaponIndex >= weapons.size()) {
+            System.out.println("Invalid weapon choice.");
+            return;
+        }
+
         Weapon chosenWeapon = weapons.get(weaponIndex);
         if (player.getMoney() >= chosenWeapon.getPrice()) {
             player.subtractMoney(chosenWeapon.getPrice());
-            System.out.println("Weapon purchased: " + chosenWeapon.getName());
+            player.equipWeapon(chosenWeapon); // Équipe l'arme directement
+            System.out.println("Weapon purchased and equipped: " + chosenWeapon.getName());
         } else {
             System.out.println("Not enough money!");
         }

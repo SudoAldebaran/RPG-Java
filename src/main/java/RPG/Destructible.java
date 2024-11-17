@@ -11,5 +11,4 @@ public class Destructible {
     public void hit(double d) {
         this.health -= d;
     }
-
 }
