@@ -2,8 +2,8 @@ package RPG;
 
 public class Swords extends Weapon {
 
-    private static final double DAMAGE = 10;
-    private static final double PRICE = 10;
+    private static final double DAMAGE = 13;
+    private static final double PRICE = 30;
     private static final String NAME = "Swords";
 
     private static final double MONSTER_DAMAGE_RATIO = 0.4;

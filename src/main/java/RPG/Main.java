@@ -93,14 +93,14 @@ public class Main {
                 if (map.isValidMove(newX, newY)) {
                     player.setPosition(newX, newY);
                 } else {
-                    System.out.println("You cannot move there! It's blocked by an obstacle.");
+                    System.out.println("You cannot move there ! It's blocked by an obstacle");
                 }
 
                 if (map.isValidMove(newX, newY)) {
                     char tile = map.getTile(newX, newY);
 
                     if (tile == 'X') { // Obstacle destructible détecté
-                        System.out.println("You encountered a destructible obstacle! 🪓");
+                        System.out.println("You encountered a destructible obstacle ! 🪓");
                         System.out.println("Do you want to attack it? (Y/N)");
                         String choice = scanner.nextLine().toUpperCase();
 
@@ -123,19 +123,83 @@ public class Main {
                     System.out.println("You cannot move there! It's blocked by an obstacle.");
                 }
 
-
                 // Interaction avec la carte
                 char tile = map.getTile(player.getxPos(), player.getyPos());
 
                 if (tile == 'G') { // Si le joueur tombe sur l'Ogre
-                    System.out.println("You encountered the Ogre! \uD83E\uDDCC You died in horrible agony.");
+                    System.out.println("You encountered the Ogre ! \uD83E\uDDCC You died in horrible agony.");
                     break; // Terminer le jeu
                 } else if (tile == 'M') { // Si le joueur tombe sur un monstre
                     System.out.println("You encountered a monster!");
-                    // Ajout d'un combat ici
+
+                    // Création du monstre
+                    Monster monster = new Monster();
+
+                    // Boucle de combat
+                    while (monster.getHealth() > 0 && player.getHealth() > 0) {
+                        System.out.println("\nMonster Health: " + monster.getHealth());
+                        System.out.println("Your Health: " + player.getHealth());
+                        System.out.println("Your mana " + player.getMana());
+
+                        System.out.println("\nWhat do you want to do?");
+                        System.out.println("[A] Attack");
+                        System.out.println("[F] Flee (-20 HP)");
+                        System.out.println("[S] Special Attack (Costs 20 Mana)");
+
+                        String choice = scanner.nextLine().toUpperCase();
+                        if (choice.equals("A")) {
+                            // Le joueur attaque
+                            System.out.println("You attack the monster !");
+                            monster.hit(player.getDamage());
+                            if (monster.getHealth() <= 0) {
+                                System.out.println("You defeated the monster and received 10 coins!");
+                                player.addMoney(10);
+                                map.setTile(newX, newY, '.');
+                                player.addXP(50); // Gain d'XP pour avoir battu le monstre
+                                break;
+                            }
+
+                            // Le monstre attaque
+                            int monsterDamage = (int) (Math.random() * 21) + 10; // Dégâts aléatoires entre 10 et 30
+                            System.out.println("The monster attacks you for " + monsterDamage + " damage!");
+                            player.reduceHealth(monsterDamage);
+                        } else if (choice.equals("F")) {
+                            // Le joueur fuit
+                            System.out.println("You fled the fight but lost 20 HP!");
+                            player.reduceHealth(20);
+                            break; // Sortie de la boucle de combat
+                        } else if (choice.equals("S")) {
+                            // Le joueur utilise l'attaque spéciale
+                            player.specialAttack(monster); // Appel de l'attaque spéciale
+                            if (monster.getHealth() <= 0) {
+                                System.out.println("You defeated the monster and received 10 coins!");
+                                player.addMoney(10);
+                                map.setTile(newX, newY, '.');
+                                player.addXP(50); // Gain d'XP pour avoir battu le monstre
+                                break;
+                            }
+
+                            // Le monstre attaque après l'attaque spéciale
+                            int monsterDamage = (int) (Math.random() * 21) + 10; // Dégâts aléatoires entre 10 et 30
+                            System.out.println("The monster attacks you for " + monsterDamage + " damage!");
+                            player.reduceHealth(monsterDamage);
+                        } else {
+                            System.out.println("Invalid choice! Please choose [A] or [F].");
+                        }
+                    }
+
+                    // Vérifier si le joueur est mort
+                    if (player.getHealth() <= 0) {
+                        System.out.println("You died! Game over. 💀");
+                        break; // Fin du jeu
+                    }
                 } else if (tile == 'S') { // Si le joueur atteint la sortie
                     System.out.println("Congratulations! You reached the exit and won the game!");
                     break; // Terminer le jeu
+                } else if (tile == 'H') { // Si le joueur atteint la sortie
+                    System.out.println("You healed by 50 life points !");
+                    player.increaseHealth(50);
+                    map.setTile(newX, newY, '.');
                 }
             } else {
                 System.out.println("Invalid input. Please use Z, Q, S, D, B, or X.");

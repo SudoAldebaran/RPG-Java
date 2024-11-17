@@ -23,19 +23,27 @@ public class Map {
     private void configureStandardMap() {
         // Obstacles destructibles formant une partie du labyrinthe
         int[][] destructibleObstaclePositions = {
-                {1, 2}, {1, 5}, {3, 3}, {5, 3}, {7, 5}, {8, 1}, {8, 3}
+                {1, 2}, {1, 5}, {5, 3}, {7, 5}, {7, 1}, {8, 3}, {9, 4}
         };
 
         // Obstacles non destructibles formant une partie du labyrinthe
         int[][] nonDestructibleObstaclePositions = {
                 {0, 7}, {1, 1}, {1, 3}, {1, 6}, {1, 7}, {2, 1}, {3, 1},
                 {3, 5}, {3, 7}, {4, 7}, {5, 7}, {5, 5}, {6, 3}, {7, 3},
-                {7, 4}, {7, 6}, {7, 7}, {8, 2}, {9, 3}
+                {7, 4}, {7, 6}, {7, 7}, {8, 2}, {9, 3}, {8, 0}, {5, 0},
+                {6, 0}, {3, 2}, {0, 8}, {0, 9}, {1, 8}, {1, 9}, {2, 9},
+                {3, 9}, {4, 9}, {5, 9}, {6, 7}, {9, 5}, {9, 6}, {9, 7},
+                {6, 9}, {7, 9}, {3, 3}, {4, 3}, {5, 6}, {9, 0}, {9, 1},
+                {9, 2}, {7, 2}, {7, 0}
         };
 
         // Monstres sur des chemins clés
         int[][] monsterPositions = {
-                {2, 4}, {4, 4}, {6, 6}
+                {2, 4}, {4, 4}, {6, 5}, {6, 1}, {8, 7}
+        };
+
+        int[][] healPositions = {
+                {8, 1}
         };
 
         // Placer les obstacles destructibles ('X')
@@ -53,8 +61,12 @@ public class Map {
             map[pos[0]][pos[1]] = 'M'; // Place un monstre
         }
 
+        for (int[] pos : healPositions) {
+            map[pos[0]][pos[1]] = 'H'; // Place un soin
+        }
+
         // Ajouter un Ogre ('G') à une position clé
-        map[3][6] = 'G'; // Exemple : placer l'Ogre à la position (3, 6)
+        map[5][8] = 'G'; // Exemple : placer l'Ogre à la position (3, 6)
 
         // Ajouter la sortie en bas à droite ('S')
         map[SIZE - 1][SIZE - 1] = 'S'; // La sortie est en bas à droite (9, 9)
@@ -102,6 +114,8 @@ public class Map {
                     System.out.print("\uD83E\uDDDF"); // Emoji monstre
                 } else if (map[i][j] == 'S') {
                     System.out.print("\uD83D\uDEAA"); // Emoji porte pour la sortie
+                } else if (map[i][j] == 'H') {
+                    System.out.print("\uD83D\uDC8A"); // Emoji porte pour soin
                 } else {
                     System.out.print(". "); // Case vide
                 }

@@ -9,17 +9,21 @@ public class Player {
     private double mana;
     private int xPos, yPos;  // Position du joueur sur la carte
     private Weapon equippedWeapon;  // Arme équipée
+    private int health;
+    private int strength;
 
     public Player(String name, PlayerClass playerClass) {
         this.name = name;
-        this.playerClass = playerClass; // Initialisation de la classe
+        this.playerClass = playerClass;
         this.level = 1;
         this.xp = 0;
-        this.money = 100;
-        this.mana = playerClass.getStartingMana(); // Mana spécifique à la classe
-        this.xPos = 0;  // Position initiale (en haut à gauche)
+        this.money = 20;
+        this.mana = playerClass.getStartingMana();
+        this.xPos = 0;
         this.yPos = 0;
-        this.equippedWeapon = null; // Par défaut, pas d'arme équipée
+        this.equippedWeapon = null;
+        this.health = this.playerClass.getHealth();
+        this.strength = playerClass.getStrength(); // Initialisation de la force
     }
 
     public void displayInfo() {
@@ -31,20 +35,36 @@ public class Player {
         System.out.println("Mana: " + this.mana);
         if (this.equippedWeapon != null) {
             System.out.println("Strength: " + this.getStrength());
-            displayEquippedWeapon();
         } else {
             System.out.println("Strength: " + this.playerClass.getStrength());
         }
+        displayEquippedWeapon();
+        System.out.println("Life : " + this.health);
     }
-
 
     public void addXP(int xp) {
         this.xp += xp;
         if (this.xp >= 100) {  // Exemple : chaque 100 XP fait passer un niveau
             this.level++;
             this.xp = 0;
-            System.out.println("Level up! New level: " + this.level);
+            System.out.println("Level up ! New level: " + this.level);
+
+            // Augmentation de la force à chaque montée de niveau
+            // Bonus de force par niveau
+            int levelStrengthBonus = 5;
+            increaseStrength(levelStrengthBonus);
         }
+    }
+
+    // Méthode pour augmenter la force
+    public void increaseStrength(int amount) {
+        this.strength += amount;  // Met à jour la force du joueur
+        System.out.println("Strength increased by " + amount + ". New strength: " + this.strength);
+    }
+
+    public void increaseHealth(int amount) {
+        this.health += amount;
+        System.out.println("Health increased by " + amount + ". Current health: " + this.health);
     }
 
     public void addMoney(double amount) {
@@ -117,15 +137,13 @@ public class Player {
     }
 
     public int getStrength() {
-        int baseStrength = this.playerClass.getStrength(); // Force de base selon la classe
         int weaponDamage = (this.equippedWeapon != null) ? (int) this.equippedWeapon.getDamage() : 0; // Bonus de l'arme
-        return baseStrength + weaponDamage; // Force totale
+        return this.strength + weaponDamage;  // Force actuelle du joueur, incluant l'arme équipée
     }
 
     // Permet d'équiper une arme
     public void equipWeapon(Weapon weapon) {
         this.equippedWeapon = weapon;
-        // this.strength = weapon.getDamage();
         System.out.println("You equipped the " + weapon.getName() + "!");
     }
 
@@ -149,6 +167,31 @@ public class Player {
                 return "\uD83E\uDDDB"; // Emoji Vampire
             default:
                 return "P"; // Par défaut
+        }
+    }
+
+    public void reduceHealth(int amount) {
+        this.health -= amount;
+        if (this.health < 0) this.health = 0;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public double getMana() {
+        return mana;
+    }
+
+    // Méthode pour l'attaque spéciale, consomme du mana
+    public void specialAttack(Destructible target) {
+        if (this.mana >= 20) {  // Vérification si le joueur a assez de mana (par exemple 20 mana par attaque spéciale)
+            this.mana -= 20;  // Consommation de mana
+            double specialDamage = getDamage() * 2;  // Dégâts doublés
+            System.out.println("Special attack! Dealing " + specialDamage + " damage.");
+            target.hit(specialDamage);  // Inflige les dégâts à la cible
+        } else {
+            System.out.println("Not enough mana for a special attack.");
         }
     }
 }

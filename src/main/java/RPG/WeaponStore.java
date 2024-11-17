@@ -35,9 +35,9 @@ public class WeaponStore {
         if (player.getMoney() >= chosenWeapon.getPrice()) {
             player.subtractMoney(chosenWeapon.getPrice());
             player.equipWeapon(chosenWeapon); // Équipe l'arme directement
-            System.out.println("Weapon purchased and equipped: " + chosenWeapon.getName());
+            System.out.println("Weapon purchased and equipped : " + chosenWeapon.getName());
         } else {
-            System.out.println("Not enough money!");
+            System.out.println("Not enough money. Get out of here !");
         }
     }
 }

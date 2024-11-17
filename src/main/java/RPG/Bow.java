@@ -2,8 +2,8 @@ package RPG;
 
 public class Bow extends Weapon {
 
-    private static final double DAMAGE = 15;
-    private static final double PRICE = 10;
+    private static final double DAMAGE = 7;
+    private static final double PRICE = 20;
     private static final String NAME = "Bow";
 
     private static final double MONSTER_DAMAGE_RATIO = 0.9;
